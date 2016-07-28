@@ -1,7 +1,7 @@
 # L_Redmine
 
 #2016-07-28
-	²Î¿¼×ÊÁÏ£º
+	docs£º
 	// http://www.redmine.org/projects/redmine/wiki/Rest_api
 	// http://www.redmine.org/projects/redmine/wiki/Rest_api_with_java
 	// https://github.com/taskadapter/redmine-java-api
