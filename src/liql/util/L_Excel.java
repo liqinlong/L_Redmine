@@ -4,7 +4,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.OutputStream;
-import java.util.ArrayList;
+import java.util.LinkedList;
 
 import jxl.Workbook;
 import jxl.format.Alignment;
@@ -22,12 +22,16 @@ import jxl.write.WriteException;
 import liql.redmine.RowData;
 
 public class L_Excel {
-	public static void WriteExcel(String outfile, ArrayList<RowData> dataList) throws WriteException, IOException {
+	public static void WriteExcel(String outfile, LinkedList<RowData> dataList) throws WriteException, IOException {
+		if (dataList == null || dataList.isEmpty())
+			return;
 		Workbook wb = null;
 		WritableWorkbook wwb = null;
+
 		try {
 
 			File fout = new File(outfile);
+			fout.deleteOnExit();
 			OutputStream os = new FileOutputStream(fout);
 			fout.createNewFile();
 			wwb = Workbook.createWorkbook(os);
@@ -86,9 +90,6 @@ public class L_Excel {
 
 				for (int j = 0; j < row; j++) {
 					RowData rowData = dataList.get(j);
-
-					System.err.println(rowData.getPro_name() + "\t" + rowData.getIssue_id() + "\t");
-
 					label = new Label(0, j + 1, rowData.getPro_name(), wcfFCCellContentA);
 					ws.addCell(label);
 					label = new Label(1, j + 1, String.valueOf(rowData.getIssue_id()), wcfFCCellContentA);
