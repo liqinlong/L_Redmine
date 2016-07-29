@@ -31,7 +31,6 @@ public class L_Excel {
 		try {
 
 			File fout = new File(outfile);
-			fout.deleteOnExit();
 			OutputStream os = new FileOutputStream(fout);
 			fout.createNewFile();
 			wwb = Workbook.createWorkbook(os);
