@@ -19,10 +19,10 @@ import jxl.write.WritableFont;
 import jxl.write.WritableSheet;
 import jxl.write.WritableWorkbook;
 import jxl.write.WriteException;
-import liql.redmine.RowData;
+import liql.redmine.RedmineRowData;
 
 public class L_Excel {
-	public static void WriteExcel(String outfile, LinkedList<RowData> dataList) throws WriteException, IOException {
+	public static void WriteExcel_Redmine(String outfile, LinkedList<RedmineRowData> dataList) throws WriteException, IOException {
 		if (dataList == null || dataList.isEmpty())
 			return;
 		Workbook wb = null;
@@ -88,7 +88,7 @@ public class L_Excel {
 				ws.addCell(label);
 
 				for (int j = 0; j < row; j++) {
-					RowData rowData = dataList.get(j);
+					RedmineRowData rowData = dataList.get(j);
 					label = new Label(0, j + 1, rowData.getPro_name(), wcfFCCellContentA);
 					ws.addCell(label);
 					label = new Label(1, j + 1, String.valueOf(rowData.getIssue_id()), wcfFCCellContentA);

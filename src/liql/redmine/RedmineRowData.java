@@ -1,6 +1,6 @@
 package liql.redmine;
 
-public class RowData {
+public class RedmineRowData {
 	String pro_name;
 	Integer issue_id;
 	String subject;
@@ -119,7 +119,7 @@ public class RowData {
 		this.desc = desc;
 	}
 
-	public RowData(String pro_name, Integer issue_id, String subject, String tracker_name, String status,
+	public RedmineRowData(String pro_name, Integer issue_id, String subject, String tracker_name, String status,
 			String priority, String author, String assignee, String create_time, String start_time, String update_time,
 			String due_time, String desc) {
 		super();

@@ -22,7 +22,7 @@ public class L_GetIssue {
 
 	public static void main(String[] args) {
 		try {
-			LinkedList<RowData> ALLINONE = new LinkedList<RowData>();
+			LinkedList<RedmineRowData> ALLINONE = new LinkedList<RedmineRowData>();
 
 			RedmineManager mgr = RedmineManagerFactory.createWithApiKey(L_Security.REDMINEURL, L_Security.APIACCESSKEY);
 			// list projects
@@ -32,7 +32,7 @@ public class L_GetIssue {
 					continue;// don't subcribe
 				}
 				
-				LinkedList<RowData> rowsdata = new LinkedList<RowData>();
+				LinkedList<RedmineRowData> rowsdata = new LinkedList<RedmineRowData>();
 
 				// each project list issues
 				List<Issue> issues = mgr.getIssueManager().getIssues(String.valueOf(project.getId()), null);// RedmineÏîÄ¿±àºÅ
@@ -47,7 +47,7 @@ public class L_GetIssue {
 					// create time is long time to today ,about N > 10
 					// others
 
-					rowsdata.add(new RowData(issue.getProject().getName(), issue.getId(), issue.getSubject(),
+					rowsdata.add(new RedmineRowData(issue.getProject().getName(), issue.getId(), issue.getSubject(),
 							issue.getTracker().getName(), issue.getStatusName(), issue.getPriorityText(),
 							issue.getAuthor().toString(), issue.getAssigneeName(),
 							L_Util.fmt_YYYYMMDD(issue.getCreatedOn()), L_Util.fmt_YYYYMMDD(issue.getStartDate()),
@@ -57,11 +57,11 @@ public class L_GetIssue {
 
 				System.out.println(project.getName() + "\t\t issue nums : " + rowsdata.size());
 				ALLINONE.addAll(rowsdata);
-				L_Excel.WriteExcel(OUTDIR + "[" + project.getName() + "]_issues(" + rowsdata.size() + ")" + LASTFIX,rowsdata);
+				L_Excel.WriteExcel_Redmine(OUTDIR + "[" + project.getName() + "]_issues(" + rowsdata.size() + ")" + LASTFIX,rowsdata);
 				rowsdata = null;
 			}
 
-			L_Excel.WriteExcel(OUTDIR + "ALLINONE_issues(" + ALLINONE.size() + ")" + LASTFIX, ALLINONE);
+			L_Excel.WriteExcel_Redmine(OUTDIR + "ALLINONE_issues(" + ALLINONE.size() + ")" + LASTFIX, ALLINONE);
 			System.out.println("all issue nums : " + ALLINONE.size());
 		} catch (RedmineException | WriteException | IOException e) {
 			e.printStackTrace();
