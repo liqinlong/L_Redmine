@@ -31,7 +31,7 @@ public class L_GetIssue {
 				if (L_Security.NOSCRIBE.contains(project.getId())) {
 					continue;// don't subcribe
 				}
-
+				
 				LinkedList<RowData> rowsdata = new LinkedList<RowData>();
 
 				// each project list issues
@@ -58,6 +58,7 @@ public class L_GetIssue {
 				System.out.println(project.getName() + "\t\t issue nums : " + rowsdata.size());
 				ALLINONE.addAll(rowsdata);
 				L_Excel.WriteExcel(OUTDIR + "[" + project.getName() + "]_issues(" + rowsdata.size() + ")" + LASTFIX,rowsdata);
+				rowsdata = null;
 			}
 
 			L_Excel.WriteExcel(OUTDIR + "ALLINONE_issues(" + ALLINONE.size() + ")" + LASTFIX, ALLINONE);
