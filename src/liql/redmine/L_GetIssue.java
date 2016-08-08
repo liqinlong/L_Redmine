@@ -27,25 +27,30 @@ public class L_GetIssue {
 			RedmineManager mgr = RedmineManagerFactory.createWithApiKey(L_Security.REDMINEURL, L_Security.APIACCESSKEY);
 			// list projects
 			List<Project> projects = mgr.getProjectManager().getProjects();
+
 			for (Project project : projects) {
 				if (L_Security.NOSCRIBE.contains(project.getId())) {
 					continue;// don't subcribe
 				}
-				
+
 				LinkedList<RedmineRowData> rowsdata = new LinkedList<RedmineRowData>();
 
 				// each project list issues
 				List<Issue> issues = mgr.getIssueManager().getIssues(String.valueOf(project.getId()), null);// Redmine项目编号
 				for (Issue issue : issues) {
 
-					// != 5-已关闭 || !=4-里程碑
-					if (issue.getStatusId() == 5 || issue.getTracker().getId() == 4) {
-						continue;
+					// 正常查询排除已关闭&里程碑
+					{
+						// != 5-已关闭 || !=4-里程碑
+						if (issue.getStatusId() == 5 || issue.getTracker().getId() == 4) {
+							continue;
+						}
 					}
 
-					// create by yesterday
-					// create time is long time to today ,about N > 10
-					// others
+					// 其他过滤条件
+					{
+						
+					}
 
 					rowsdata.add(new RedmineRowData(issue.getProject().getName(), issue.getId(), issue.getSubject(),
 							issue.getTracker().getName(), issue.getStatusName(), issue.getPriorityText(),
@@ -57,7 +62,8 @@ public class L_GetIssue {
 
 				System.out.println(project.getName() + "\t\t issue nums : " + rowsdata.size());
 				ALLINONE.addAll(rowsdata);
-				L_Excel.WriteExcel_Redmine(OUTDIR + "[" + project.getName() + "]_issues(" + rowsdata.size() + ")" + LASTFIX,rowsdata);
+				L_Excel.WriteExcel_Redmine(
+						OUTDIR + "[" + project.getName() + "]_issues(" + rowsdata.size() + ")" + LASTFIX, rowsdata);
 				rowsdata = null;
 			}
 

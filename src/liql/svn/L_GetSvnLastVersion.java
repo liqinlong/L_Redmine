@@ -77,17 +77,20 @@ public class L_GetSvnLastVersion {
 							String[] tmparr = key.split("/");
 							svnproname = tmparr[1];
 							issrc = true;
+							System.out.println(svnlogentry.getRevision() + "curr ==> "+svnproname);
 							break;
 						}
 					}
 
 					if (svnproname.indexOf("epay") != -1 
 							|| svnproname.indexOf("jfy") != -1
-							|| svnproname.indexOf("emall") != -1){
+							|| svnproname.indexOf("emall") != -1
+							|| svnproname.indexOf("xxt") != -1
+							){
 						issubcribe = true;
 					}
 					
-					if (issrc && issubcribe) {
+					if (issrc & issubcribe) {
 						LinkedList<SVNRowData> latestRow = null;
 						String key = svnbashurl + "/" + svnproname;
 						if (null == retMap.get(key)) {
