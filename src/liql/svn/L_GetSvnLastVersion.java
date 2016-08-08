@@ -27,10 +27,6 @@ import nosubmit.L_Security;
 public class L_GetSvnLastVersion {
 	public static void main(String[] args) {
 
-		String tt = "/jinzhoubankjfy/src";
-		System.err.println(tt.indexOf("/src/"));
-//		if(true)return;
-		
 		try {// ³õÊ¼»¯°æ±¾¿â
 			DAVRepositoryFactory.setup();
 			SVNRepositoryFactoryImpl.setup();
@@ -72,12 +68,12 @@ public class L_GetSvnLastVersion {
 					Iterator<String> itkeys = svnlogentry.getChangedPaths().keySet().iterator();
 
 					boolean issrc = false;
+					boolean issubcribe = false;
 
 					while (itkeys.hasNext()) {
 						issrc = false;
 						String key = (String) itkeys.next();
 						if (key.indexOf("/src/") != -1) {
-							System.out.println(key);
 							String[] tmparr = key.split("/");
 							svnproname = tmparr[1];
 							issrc = true;
@@ -85,7 +81,13 @@ public class L_GetSvnLastVersion {
 						}
 					}
 
-					if (issrc) {
+					if (svnproname.indexOf("epay") != -1 
+							|| svnproname.indexOf("jfy") != -1
+							|| svnproname.indexOf("emall") != -1){
+						issubcribe = true;
+					}
+					
+					if (issrc && issubcribe) {
 						LinkedList<SVNRowData> latestRow = null;
 						String key = svnbashurl + "/" + svnproname;
 						if (null == retMap.get(key)) {
@@ -117,7 +119,7 @@ public class L_GetSvnLastVersion {
 
 			System.out.println("===========================" + key + "\t total commit : " + outrows.size()
 					+ "===========================");
-			buff.append("===========================" + key + "\t total commit : " + outrows.size()
+			buff.append("\n\n\n===========================" + key + "\t total commit : " + outrows.size()
 					+ "===========================").append("\n");
 			int i = 0;
 			Iterator<SVNRowData> rowit = outrows.iterator();
