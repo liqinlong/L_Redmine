@@ -13,8 +13,9 @@ public class L_Util {
 	}
 
 	public static void mkdir(String OUTDIR) {
+		L_LOG.OUT_Nece(OUTDIR);
 		File dir = new File(OUTDIR);
 		boolean x = dir.mkdirs();
-		System.out.println("mkdirs ret : " + x);
+		L_LOG.OUT_Nece("mkdirs ret : " + x);
 	}
 }

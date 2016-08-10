@@ -10,28 +10,16 @@ import java.util.zip.ZipOutputStream;
 
 public class L_ZIPCompress {
 
-	/**
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		try {
-			L_ZIPCompress.zip("D:\\git_info\\L_Redmine\\trunk\\outfile\\20160810协同任务.zip",
-					("D:\\git_info\\L_Redmine\\trunk\\outfile\\20160810"));
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
 
 	public static void zip(String zipFileName, String filename) throws Exception {
-		System.out.println("压缩中...");
+		L_LOG.OUT_Nece("start zip...");
 		ZipOutputStream out = new ZipOutputStream(new FileOutputStream(zipFileName));
 		BufferedOutputStream bo = new BufferedOutputStream(out);
 		File inputFile = new File(filename);
 		zip(out, inputFile, inputFile.getName(), bo);
 		bo.close();
 		out.close(); // 输出流关闭
-		System.out.println("压缩完成");
+		L_LOG.OUT_Nece("end zip...");
 	}
 
 	private static void zip(ZipOutputStream out, File f, String base, BufferedOutputStream bo) throws Exception { // 方法重载

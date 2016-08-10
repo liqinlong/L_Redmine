@@ -13,6 +13,7 @@ import com.taskadapter.redmineapi.bean.Project;
 
 import jxl.write.WriteException;
 import liql.util.L_Excel;
+import liql.util.L_LOG;
 import liql.util.L_Util;
 import nosubmit.L_Security;
 
@@ -56,7 +57,7 @@ public class L_GetIssue_ALL {
 							issue.getDescription()));
 				}
 
-				System.out.println(project.getName() + "\t\t issue nums : " + rowsdata.size());
+				L_LOG.OUT_Nece(project.getName() + "\t\t issue nums : " + rowsdata.size());
 				ALLINONE.addAll(rowsdata);
 				L_Excel.WriteExcel_Redmine(
 						OUTDIR + "[" + project.getName() + "]_issues(" + rowsdata.size() + ")" + L_Security.EXCELFIX,
@@ -66,7 +67,7 @@ public class L_GetIssue_ALL {
 
 			L_Excel.WriteExcel_Redmine(OUTDIR + "ALLINONE_issues(" + ALLINONE.size() + ")" + L_Security.EXCELFIX,
 					ALLINONE);
-			System.out.println("all issue nums : " + ALLINONE.size());
+			L_LOG.OUT_Nece("all issue nums : " + ALLINONE.size());
 		} catch (RedmineException | WriteException | IOException e) {
 			e.printStackTrace();
 		}

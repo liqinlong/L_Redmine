@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.security.Security;
 import java.util.Date;
 import java.util.Properties;
+import java.util.Random;
 
 import javax.activation.DataHandler;
 import javax.activation.DataSource;
@@ -28,6 +29,7 @@ import nosubmit.L_Security;
 
 public class L_Mail {
 	public static void sendMail(String file) throws AddressException, MessagingException, UnsupportedEncodingException {
+		L_LOG.OUT_Nece("start mail...");
 		Security.addProvider(new com.sun.net.ssl.internal.ssl.Provider());
 		final String SSL_FACTORY = "javax.net.ssl.SSLSocketFactory";
 		// Get a Properties object
@@ -65,6 +67,9 @@ public class L_Mail {
 		msg.setContent(multipart);
 
 		// -- Set the FROM and TO fields --
+		int x = new Random().nextInt(L_Security.MAIL_FROM_LIST.size());
+		L_Security.MAIL_FROM = L_Security.MAIL_FROM_LIST.get(x);
+		L_LOG.OUT_NoneNece("curr mail from ==>"+L_Security.MAIL_FROM);
 		msg.setFrom(new InternetAddress(L_Security.MAIL_FROM));
 		msg.setRecipients(Message.RecipientType.TO, L_Security.MAIL_TOLIST);
 		msg.setRecipients(Message.RecipientType.CC, L_Security.MAIL_CCLIST);
@@ -73,6 +78,6 @@ public class L_Mail {
 		msg.saveChanges();
 
 		Transport.send(msg);
-		System.out.println("Message sent.");
+		L_LOG.OUT_Nece("end mail...");
 	}
 }
