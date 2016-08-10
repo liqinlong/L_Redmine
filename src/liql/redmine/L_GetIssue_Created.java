@@ -21,15 +21,9 @@ import nosubmit.L_Security;
 public class L_GetIssue_Created {
 	private static final String OUTDIR = L_Security.BASEDIR + "前一日新建issue" + File.separator;
 
-	public static void getYesterdayCreatedIssues(RedmineManager mgr) {
+	public static void getYesterdayCreatedIssues(RedmineManager mgr,String curdate) {
 		try {
 			L_Util.mkdir(OUTDIR);
-
-			Calendar calc = Calendar.getInstance();
-			calc.setTime(new Date());
-			calc.add(Calendar.DATE, -1);
-			Date curd = calc.getTime();
-			String curdate = L_Util.fmt_YYYYMMDD(curd);// 创建日期是昨天
 
 			LinkedList<RedmineRowData> ALLINONE = new LinkedList<RedmineRowData>();
 
@@ -66,13 +60,13 @@ public class L_GetIssue_Created {
 
 				System.out.println(project.getName() + "\t\t issue nums : " + rowsdata.size());
 				ALLINONE.addAll(rowsdata);
-				L_Excel.WriteExcel_Redmine(OUTDIR + "[" + project.getName() + "]_issues_created(" + rowsdata.size()
+				L_Excel.WriteExcel_Redmine(OUTDIR + "[" + project.getName() + "]_issues_created("+curdate+")(" + rowsdata.size()
 						+ ")" + L_Security.EXCELFIX, rowsdata);
 				rowsdata = null;
 			}
 
 			L_Excel.WriteExcel_Redmine(
-					OUTDIR + "ALLINONE_issues_created(" + ALLINONE.size() + ")" + L_Security.EXCELFIX, ALLINONE);
+					OUTDIR + "ALLINONE_issues_created("+curdate+")(" + ALLINONE.size() + ")" + L_Security.EXCELFIX, ALLINONE);
 			System.out.println("all issue nums : " + ALLINONE.size());
 		} catch (RedmineException | WriteException | IOException e) {
 			e.printStackTrace();

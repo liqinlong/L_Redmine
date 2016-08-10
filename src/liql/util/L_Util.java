@@ -14,7 +14,7 @@ public class L_Util {
 
 	public static void mkdir(String OUTDIR) {
 		File dir = new File(OUTDIR);
-		dir.mkdir();
-
+		boolean x = dir.mkdirs();
+		System.out.println("mkdirs ret : " + x);
 	}
 }

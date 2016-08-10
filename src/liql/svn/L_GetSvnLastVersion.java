@@ -111,9 +111,8 @@ public class L_GetSvnLastVersion {
 
 		});
 		
-		String OUTDIR = "outfile" + File.separator + L_Util.fmt_YYYYMMDD(new Date()) + File.separator;
 		String LASTFIX = ".txt";
-		File outf = new File(OUTDIR + "svn_commit_log" + LASTFIX);
+		File outf = new File(L_Security.BASEDIR + "svn_commit_log" + LASTFIX);
 		StringBuffer buff = new StringBuffer();
 		Iterator<String> outkey = retMap.keySet().iterator();
 		while (outkey.hasNext()) {
