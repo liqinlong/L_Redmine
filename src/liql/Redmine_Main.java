@@ -22,7 +22,7 @@ public class Redmine_Main {
 
 	public static void main(String[] args) {
 
-		ScheduledExecutor_Redmine rm = new ScheduledExecutor_Redmine("redmine jobs");
+		ScheduledExecutor_Redmine redm = new ScheduledExecutor_Redmine("redmine jobs");
 
 		// 获取当前时间
 		Calendar currentDate = Calendar.getInstance();
@@ -30,6 +30,7 @@ public class Redmine_Main {
 
 		// 目标时间
 		Calendar doDate = Calendar.getInstance();
+		doDate.set(Calendar.DAY_OF_MONTH, currentDate.get(Calendar.DAY_OF_MONTH) +1);
 		doDate.set(Calendar.HOUR_OF_DAY, 9);
 		doDate.set(Calendar.MINUTE, 0);
 		doDate.set(Calendar.SECOND, 0);
@@ -38,11 +39,11 @@ public class Redmine_Main {
 
 		long delay = doDate.getTimeInMillis() - currentDate.getTimeInMillis();
 		L_LOG.OUT_Nece("delay time = " + delay);
-
+		
 		// @@@@@@@@@@D * H * Min* Sec * 1000;
 		long period = 1 * 24 * 60 * 60 * 1000;
 		ScheduledExecutorService service = Executors.newScheduledThreadPool(1);
 		// 从现在开始delay毫秒之后，每XX执行一次job1
-		service.scheduleAtFixedRate(rm, delay, period, TimeUnit.MILLISECONDS);
+		service.scheduleAtFixedRate(redm, delay, period, TimeUnit.MILLISECONDS);
 	}
 }

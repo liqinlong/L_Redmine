@@ -1,6 +1,5 @@
 package liql.test;
 import java.io.File;
-import java.util.Collection;
 
 import org.apache.log4j.Logger;
 import org.tmatesoft.svn.core.SVNCommitInfo;
@@ -23,7 +22,6 @@ import org.tmatesoft.svn.core.wc.SVNWCUtil;
 
 /**
  * SVNKit Utility
- * @author lena yang
  *
  */
 public class SVNUtil {

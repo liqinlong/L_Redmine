@@ -54,7 +54,21 @@ public class L_Excel {
 
 			WritableSheet ws = wwb.createSheet("µÚÒ»Ò³", 0);
 			ws.getSettings().setVerticalFreeze(1);
-
+			ws.setColumnView(0, 30);
+			ws.setColumnView(1, 10);
+			ws.setColumnView(2, 50);
+			ws.setColumnView(3, 10);
+			ws.setColumnView(4, 10);
+			ws.setColumnView(5, 10);
+			ws.setColumnView(6, 10);
+			ws.setColumnView(7, 10);
+			ws.setColumnView(8, 15);
+			ws.setColumnView(9, 15);
+			ws.setColumnView(10, 20);
+			ws.setColumnView(11, 20);
+			ws.setColumnView(12, 100);
+			
+			
 			Label label = null;
 
 			for (int i = 0; i < 1; i++) {// st.length fix == 1
