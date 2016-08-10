@@ -18,14 +18,15 @@ import liql.util.L_Excel;
 import liql.util.L_Util;
 import nosubmit.L_Security;
 
-public class L_GetIssue {
-	private static final String OUTDIR = "outfile" + File.separator + L_Util.fmt_YYYYMMDD(new Date())+"当前所有遗留issue" + File.separator;
+public class L_GetIssue_Delay {
+	private static final String OUTDIR = "outfile" + File.separator + L_Util.fmt_YYYYMMDD(new Date()) + "当前已经延期issue"
+			+ File.separator;
 	private static final String LASTFIX = ".xls";
-	
-	public static void getCurrentAllNoneClosedissues(){
+
+	public static void getCurrentAllNoneClosedissues() {
 		try {
 			L_Util.mkdir(OUTDIR);
-			
+
 			LinkedList<RedmineRowData> ALLINONE = new LinkedList<RedmineRowData>();
 
 			RedmineManager mgr = RedmineManagerFactory.createWithApiKey(L_Security.REDMINEURL, L_Security.APIACCESSKEY);
@@ -39,25 +40,26 @@ public class L_GetIssue {
 
 				LinkedList<RedmineRowData> rowsdata = new LinkedList<RedmineRowData>();
 
-				HashMap<String, String> param = new HashMap<String,String>();
+				HashMap<String, String> param = new HashMap<String, String>();
 				param.put("project_id", String.valueOf(project.getId()));
-				
+
 				// each project list issues
 				List<Issue> issues = mgr.getIssueManager().getIssues(param);
 				for (Issue issue : issues) {
 
 					// 正常查询排除已关闭&里程碑
-					{
-						// != 5-已关闭 || !=4-里程碑
-						if (issue.getStatusId() == 5 
-								|| issue.getTracker().getId() == 4) {
+					// 4-里程碑
+					if (issue.getStatusId() == 5 || issue.getTracker().getId() == 4) {
+						continue;
+					}
+					if (null != null) {
+						long issueduedate = issue.getDueDate().getTime();// issue计划完成时间
+						long curdate = System.currentTimeMillis();// 当前时间
+
+						// if 状态不是已关闭 && 当前时间>计划完成时间
+						if (issueduedate > curdate) {
 							continue;
 						}
-					}
-
-					// 其他过滤条件
-					{
-						
 					}
 
 					rowsdata.add(new RedmineRowData(issue.getProject().getName(), issue.getId(), issue.getSubject(),
@@ -71,16 +73,17 @@ public class L_GetIssue {
 				System.out.println(project.getName() + "\t\t issue nums : " + rowsdata.size());
 				ALLINONE.addAll(rowsdata);
 				L_Excel.WriteExcel_Redmine(
-						OUTDIR + "[" + project.getName() + "]_issues(" + rowsdata.size() + ")" + LASTFIX, rowsdata);
+						OUTDIR + "[" + project.getName() + "]_issues_delay(" + rowsdata.size() + ")" + LASTFIX, rowsdata);
 				rowsdata = null;
 			}
 
-			L_Excel.WriteExcel_Redmine(OUTDIR + "ALLINONE_issues(" + ALLINONE.size() + ")" + LASTFIX, ALLINONE);
+			L_Excel.WriteExcel_Redmine(OUTDIR + "ALLINONE_issues_delay(" + ALLINONE.size() + ")" + LASTFIX, ALLINONE);
 			System.out.println("all issue nums : " + ALLINONE.size());
 		} catch (RedmineException | WriteException | IOException e) {
 			e.printStackTrace();
 		}
 	}
+
 	public static void main(String[] args) {
 		getCurrentAllNoneClosedissues();
 	}
