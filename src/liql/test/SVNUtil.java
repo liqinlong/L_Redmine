@@ -59,9 +59,7 @@ public class SVNUtil {
 		}
 		
 		// 身份验证
-		ISVNAuthenticationManager authManager = SVNWCUtil
-
-		.createDefaultAuthenticationManager(username, password);
+		ISVNAuthenticationManager authManager = SVNWCUtil.createDefaultAuthenticationManager(username, password);
 
 		// 创建身份验证管理器
 		repository.setAuthenticationManager(authManager);

@@ -19,7 +19,7 @@ import liql.util.L_Util;
 import nosubmit.L_Security;
 
 public class L_GetIssue_Closed {
-	private static final String OUTDIR = L_Security.BASEDIR + "前一日关闭issue" + File.separator;
+	private static final String OUTDIR = L_Security.BASEDIR + "当日关闭issue" + File.separator;
 
 	public static void getYesterdayClosedIssues(RedmineManager mgr,String curdate) {
 		try {

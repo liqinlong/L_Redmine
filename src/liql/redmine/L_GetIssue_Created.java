@@ -19,7 +19,7 @@ import liql.util.L_Util;
 import nosubmit.L_Security;
 
 public class L_GetIssue_Created {
-	private static final String OUTDIR = L_Security.BASEDIR + "前一日新建issue" + File.separator;
+	private static final String OUTDIR = L_Security.BASEDIR + "当日新建issue" + File.separator;
 
 	public static void getYesterdayCreatedIssues(RedmineManager mgr,String curdate) {
 		try {
