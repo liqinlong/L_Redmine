@@ -2,6 +2,7 @@ package liql.redmine;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -9,7 +10,6 @@ import java.util.List;
 
 import com.taskadapter.redmineapi.RedmineException;
 import com.taskadapter.redmineapi.RedmineManager;
-import com.taskadapter.redmineapi.RedmineManagerFactory;
 import com.taskadapter.redmineapi.bean.Issue;
 import com.taskadapter.redmineapi.bean.Project;
 
@@ -18,17 +18,21 @@ import liql.util.L_Excel;
 import liql.util.L_Util;
 import nosubmit.L_Security;
 
-public class L_GetIssue {
-	private static final String OUTDIR = "outfile" + File.separator + L_Util.fmt_YYYYMMDD(new Date())+"当前所有遗留issue" + File.separator;
-	private static final String LASTFIX = ".xls";
-	
-	public static void getCurrentAllNoneClosedissues(){
+public class L_GetIssue_Created {
+	private static final String OUTDIR = L_Security.BASEDIR + "前一日新建issue" + File.separator;
+
+	public static void getYesterdayCreatedIssues(RedmineManager mgr) {
 		try {
 			L_Util.mkdir(OUTDIR);
-			
+
+			Calendar calc = Calendar.getInstance();
+			calc.setTime(new Date());
+			calc.add(Calendar.DATE, -1);
+			Date curd = calc.getTime();
+			String curdate = L_Util.fmt_YYYYMMDD(curd);// 创建日期是昨天
+
 			LinkedList<RedmineRowData> ALLINONE = new LinkedList<RedmineRowData>();
 
-			RedmineManager mgr = RedmineManagerFactory.createWithApiKey(L_Security.REDMINEURL, L_Security.APIACCESSKEY);
 			// list projects
 			List<Project> projects = mgr.getProjectManager().getProjects();
 
@@ -39,25 +43,17 @@ public class L_GetIssue {
 
 				LinkedList<RedmineRowData> rowsdata = new LinkedList<RedmineRowData>();
 
-				HashMap<String, String> param = new HashMap<String,String>();
+				HashMap<String, String> param = new HashMap<String, String>();
 				param.put("project_id", String.valueOf(project.getId()));
-				
+
 				// each project list issues
 				List<Issue> issues = mgr.getIssueManager().getIssues(param);
+
 				for (Issue issue : issues) {
 
-					// 正常查询排除已关闭&里程碑
-					{
-						// != 5-已关闭 || !=4-里程碑
-						if (issue.getStatusId() == 5 
-								|| issue.getTracker().getId() == 4) {
-							continue;
-						}
-					}
-
-					// 其他过滤条件
-					{
-						
+					String update = L_Util.fmt_YYYYMMDD(issue.getCreatedOn());
+					if (!curdate.equalsIgnoreCase(update)) {
+						continue;
 					}
 
 					rowsdata.add(new RedmineRowData(issue.getProject().getName(), issue.getId(), issue.getSubject(),
@@ -70,18 +66,17 @@ public class L_GetIssue {
 
 				System.out.println(project.getName() + "\t\t issue nums : " + rowsdata.size());
 				ALLINONE.addAll(rowsdata);
-				L_Excel.WriteExcel_Redmine(
-						OUTDIR + "[" + project.getName() + "]_issues(" + rowsdata.size() + ")" + LASTFIX, rowsdata);
+				L_Excel.WriteExcel_Redmine(OUTDIR + "[" + project.getName() + "]_issues_created(" + rowsdata.size()
+						+ ")" + L_Security.EXCELFIX, rowsdata);
 				rowsdata = null;
 			}
 
-			L_Excel.WriteExcel_Redmine(OUTDIR + "ALLINONE_issues(" + ALLINONE.size() + ")" + LASTFIX, ALLINONE);
+			L_Excel.WriteExcel_Redmine(
+					OUTDIR + "ALLINONE_issues_created(" + ALLINONE.size() + ")" + L_Security.EXCELFIX, ALLINONE);
 			System.out.println("all issue nums : " + ALLINONE.size());
 		} catch (RedmineException | WriteException | IOException e) {
 			e.printStackTrace();
 		}
-	}
-	public static void main(String[] args) {
-		getCurrentAllNoneClosedissues();
+
 	}
 }
