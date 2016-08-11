@@ -48,7 +48,7 @@ public class L_GetIssue_Delay {
 					if (issue.getStatusId() == 5 || issue.getTracker().getId() == 4) {
 						continue;
 					}
-					if (null != null) {
+					if (null != issue.getDueDate()) {
 						long issueduedate = issue.getDueDate().getTime();// issue计划完成时间
 						long curdate = System.currentTimeMillis();// 当前时间
 
