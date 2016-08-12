@@ -14,6 +14,22 @@ public class RedmineRowData {
 	String update_time;
 	String due_time;
 	String desc;
+	
+	public String toString(){
+		StringBuffer sbuf = new StringBuffer();
+		sbuf.append("issue_id["+getIssue_id()+"]");
+		sbuf.append("author["+getAuthor()+"]");
+		sbuf.append("assignee["+getAssignee()+"]");
+		sbuf.append("pro_name["+getPro_name()+"]");
+		sbuf.append("tracker_name["+getTracker_name()+"]");
+		sbuf.append("issue_id["+getIssue_id()+"]");
+		sbuf.append("priority["+getPriority()+"]");
+		sbuf.append("status["+getStatus()+"]");
+		sbuf.append("create_time["+getCreate_time()+"]");
+		
+		return sbuf.toString();
+		
+	}
 
 	public String getPro_name() {
 		return pro_name;

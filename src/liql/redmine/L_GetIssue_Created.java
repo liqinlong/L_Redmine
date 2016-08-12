@@ -2,7 +2,6 @@ package liql.redmine;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -36,12 +35,9 @@ public class L_GetIssue_Created {
 
 				LinkedList<RedmineRowData> rowsdata = new LinkedList<RedmineRowData>();
 
-				HashMap<String, String> param = new HashMap<String, String>();
-				param.put("project_id", String.valueOf(project.getId()));
-
 				// each project list issues
-				List<Issue> issues = mgr.getIssueManager().getIssues(param);
-
+				List<Issue> issues = mgr.getIssueManager().getIssues(String.valueOf(project.getId()),null);
+				
 				for (Issue issue : issues) {
 
 					String update = L_Util.fmt_YYYYMMDD(issue.getCreatedOn());
